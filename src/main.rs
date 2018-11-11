@@ -1,3 +1,6 @@
+extern crate trash_cli;
+use trash_cli::run;
+
 fn main() {
-    println!("Hello, world!");
+    run()
 }
