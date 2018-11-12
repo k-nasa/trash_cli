@@ -39,7 +39,7 @@ pub fn run() {
     match app.clone().get_matches().subcommand() {
         ("clean", Some(_)) => println!("clean!"),
         ("dir", Some(matches)) => cmd_config(&matches),
-        ("rm", Some(_)) => println!("rm!"),
+        ("rm", Some(matches)) => cmd_rm(&matches),
         _ => {
             app.print_long_help().ok();
             return;
