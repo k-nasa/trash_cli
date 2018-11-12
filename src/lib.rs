@@ -37,7 +37,7 @@ pub fn run() {
     let mut app = build_app();
 
     match app.clone().get_matches().subcommand() {
-        ("clean", Some(_)) => println!("clean!"),
+        ("clean", Some(_)) => cmd_clean(),
         ("dir", Some(_)) => cmd_config(),
         ("rm", Some(matches)) => cmd_rm(&matches),
         _ => {
@@ -82,7 +82,15 @@ fn cmd_rm(matches: &ArgMatches) {
     editor_process.wait().expect("Failed to run");
 }
 
-fn cmd_clean(matches: &ArgMatches) {}
+fn cmd_clean() {
+    let config = Config::load_config().unwrap();
+
+    for entry in read_dir(config.trash_dir_path).unwrap() {
+        let entry = entry.unwrap();
+        let file_path = entry.path().to_str().unwrap().to_string();
+        remove_dir_all(file_path).expect("faild clean trash dir");
+    }
+}
 
 #[derive(Deserialize, Serialize, Debug)]
 pub struct Config {
