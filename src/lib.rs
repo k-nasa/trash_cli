@@ -48,7 +48,7 @@ pub fn run() {
 }
 
 fn cmd_config(matches: &ArgMatches) {
-    let mut config = Config::load_config().unwrap();
+    let config = Config::load_config().unwrap();
 
     let dir = match dirs::home_dir() {
         Some(dir) => Path::new(&dir.to_str().unwrap().to_string()).join(".config/trash_cli/"),
