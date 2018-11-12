@@ -113,3 +113,24 @@ impl Config {
         }
     }
 }
+
+fn home_dir_string() -> String {
+    match dirs::home_dir() {
+        Some(dir) => dir.to_str().unwrap().to_string(),
+        _ => panic!("Home directory is not set"),
+    }
+}
+
+fn read<T: FromStr>() -> T {
+    let mut s = String::new();
+    stdin().read_line(&mut s).ok();
+    s.trim().parse().ok().unwrap()
+}
+
+impl Default for Config {
+    fn default() -> Self {
+        let trash_dir_path = home_dir_string() + "/.Trash";
+
+        Config { trash_dir_path }
+    }
+}
