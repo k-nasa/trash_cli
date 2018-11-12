@@ -10,6 +10,7 @@ use clap::{App, AppSettings, Arg, ArgMatches, SubCommand};
 use std::fs::*;
 use std::io::*;
 use std::path::*;
+use std::process::Command;
 use std::str::from_utf8;
 use std::str::FromStr;
 
@@ -44,6 +45,20 @@ pub fn run() {
 
 fn cmd_config(matches: &ArgMatches) {
     let mut config = Config::load_config().unwrap();
+
+    let dir = match dirs::home_dir() {
+        Some(dir) => Path::new(&dir.to_str().unwrap().to_string()).join(".config/trash_cli/"),
+        None => panic!("faild fetch home_dir name"),
+    };
+    let filepath = &dir.join("config.toml");
+
+    let mut editor_process = Command::new("vim")
+        .arg(filepath)
+        .spawn()
+        .expect("Failed open editor");
+
+    editor_process.wait().expect("Failed to run");
+}
 
     let input_filepath = match matches.value_of("path") {
         Some(path) => path.to_string(),
