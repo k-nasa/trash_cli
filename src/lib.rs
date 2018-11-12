@@ -1,7 +1,17 @@
 #[macro_use]
 extern crate clap;
+#[macro_use]
+extern crate serde_derive;
+extern crate dirs;
+extern crate serde;
+extern crate toml;
 
 use clap::{App, AppSettings, Arg, ArgMatches, SubCommand};
+use std::fs::*;
+use std::io::*;
+use std::path::*;
+use std::str::from_utf8;
+use std::str::FromStr;
 
 pub fn build_app() -> App<'static, 'static> {
     App::new(crate_name!())
