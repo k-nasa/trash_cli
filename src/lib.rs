@@ -64,21 +64,26 @@ fn cmd_config(matches: &ArgMatches) {
     editor_process.wait().expect("Failed to run");
 }
 
+fn cmd_rm(matches: &ArgMatches) {
     let input_filepath = match matches.value_of("path") {
         Some(path) => path.to_string(),
         None => {
-            print!("Input new trash_dir path: ");
-            std::io::stdout().flush().expect("print! is faild");
-            read()
+            println!("Please input filepath!");
+            return;
         }
     };
 
-    config
-        .set_new_trash_dir_path(input_filepath)
-        .expect("To set new trash dir is faild");
+    let config = Config::load_config().unwrap();
+
+    let mut editor_process = Command::new("mv")
+        .arg(input_filepath)
+        .arg(config.trash_dir_path)
+        .spawn()
+        .expect("Failed move file to trash_dir");
+
+    editor_process.wait().expect("Failed to run");
 }
 
-fn cmd_rm(matches: &ArgMatches) {}
 fn cmd_clean(matches: &ArgMatches) {}
 
 #[derive(Deserialize, Serialize, Debug)]
