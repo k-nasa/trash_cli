@@ -33,7 +33,7 @@ pub fn run() {
 
     match app.clone().get_matches().subcommand() {
         ("clean", Some(_)) => println!("clean!"),
-        ("config", Some(_)) => println!("config!"),
+        ("dir", Some(matches)) => cmd_config(&matches),
         ("rm", Some(_)) => println!("rm!"),
         _ => {
             app.print_long_help().ok();
@@ -42,7 +42,23 @@ pub fn run() {
     }
 }
 
-fn cmd_config(matches: &ArgMatches) {}
+fn cmd_config(matches: &ArgMatches) {
+    let mut config = Config::load_config().unwrap();
+
+    let input_filepath = match matches.value_of("path") {
+        Some(path) => path.to_string(),
+        None => {
+            print!("Input new trash_dir path: ");
+            std::io::stdout().flush().expect("print! is faild");
+            read()
+        }
+    };
+
+    config
+        .set_new_trash_dir_path(input_filepath)
+        .expect("To set new trash dir is faild");
+}
+
 fn cmd_rm(matches: &ArgMatches) {}
 fn cmd_clean(matches: &ArgMatches) {}
 
