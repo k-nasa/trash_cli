@@ -51,3 +51,29 @@ pub struct Config {
     trash_dir_path: String,
 }
 
+impl Config {
+    fn load_or_create_config_file() -> File {
+        let dir = match dirs::home_dir() {
+            Some(dir) => Path::new(&dir.to_str().unwrap().to_string()).join(".config/trash_cli/"),
+            None => panic!("faild fetch home_dir name"),
+        };
+
+        DirBuilder::new()
+            .recursive(true)
+            .create(dir.clone())
+            .unwrap();
+
+        let filepath = &dir.join("config.toml");
+
+        match OpenOptions::new()
+            .create(true)
+            .write(true)
+            .append(true)
+            .read(true)
+            .open(filepath)
+        {
+            Ok(file) => file,
+            Err(e) => panic!(e),
+        }
+    }
+}
