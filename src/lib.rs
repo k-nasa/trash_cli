@@ -52,6 +52,34 @@ pub struct Config {
 }
 
 impl Config {
+    pub fn load_config() -> Result<Config> {
+        let mut file = Config::load_or_create_config_file();
+
+        let mut buf = vec![];
+        file.read_to_end(&mut buf)?;
+        let toml_str = match from_utf8(&buf) {
+            Ok(toml_str) => toml_str,
+            Err(e) => panic!(e),
+        };
+
+        let config: Config = if toml_str.is_empty() {
+            let config = Config::default();
+            let toml_str = toml::to_string(&config).unwrap();
+
+            match file.write_all(toml_str.as_bytes()) {
+                Ok(_) => config,
+                Err(e) => panic!(e),
+            }
+        } else {
+            match toml::from_str(toml_str) {
+                Ok(config) => config,
+                _ => Config::default(),
+            }
+        };
+
+        Ok(config)
+    }
+
     fn load_or_create_config_file() -> File {
         let dir = match dirs::home_dir() {
             Some(dir) => Path::new(&dir.to_str().unwrap().to_string()).join(".config/trash_cli/"),
