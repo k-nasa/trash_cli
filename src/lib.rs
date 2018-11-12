@@ -45,3 +45,9 @@ pub fn run() {
 fn cmd_config(matches: &ArgMatches) {}
 fn cmd_rm(matches: &ArgMatches) {}
 fn cmd_clean(matches: &ArgMatches) {}
+
+#[derive(Deserialize, Serialize, Debug)]
+pub struct Config {
+    trash_dir_path: String,
+}
+
