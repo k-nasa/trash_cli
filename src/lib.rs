@@ -20,7 +20,11 @@ pub fn build_app() -> App<'static, 'static> {
         .about(crate_description!())
         .setting(AppSettings::DeriveDisplayOrder)
         .subcommand(SubCommand::with_name("clean").about("Clean trash directory"))
-        .subcommand(SubCommand::with_name("config").about("Open config file"))
+        .subcommand(
+            SubCommand::with_name("dir")
+                .about("Config trash directory")
+                .arg(Arg::with_name("path").help("New trash dir absolute path")),
+        )
         .subcommand(SubCommand::with_name("rm").about("Trash file remove"))
 }
 
