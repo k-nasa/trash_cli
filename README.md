@@ -3,7 +3,8 @@
 # Trash Cli
 
 ## Usage
-'''
+
+```
 trash_cli 0.1.0
 k-nasa <htilcs1115@gmail.com>
 
@@ -24,7 +25,7 @@ SUBCOMMANDS:
     dir      Config trash directory
     rm       Trash file remove
     help     Prints this message or the help of the given subcommand(s)
-'''
+```
 
 ## License
 MIT
