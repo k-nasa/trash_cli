@@ -12,7 +12,6 @@ use std::io::*;
 use std::path::*;
 use std::process::Command;
 use std::str::from_utf8;
-use std::str::FromStr;
 
 pub fn build_app() -> App<'static, 'static> {
     App::new(crate_name!())
@@ -157,12 +156,6 @@ fn home_dir_string() -> String {
         Some(dir) => dir.to_str().unwrap().to_string(),
         _ => panic!("Home directory is not set"),
     }
-}
-
-fn read<T: FromStr>() -> T {
-    let mut s = String::new();
-    stdin().read_line(&mut s).ok();
-    s.trim().parse().ok().unwrap()
 }
 
 impl Default for Config {
