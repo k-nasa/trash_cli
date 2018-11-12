@@ -38,7 +38,7 @@ pub fn run() {
 
     match app.clone().get_matches().subcommand() {
         ("clean", Some(_)) => println!("clean!"),
-        ("dir", Some(matches)) => cmd_config(&matches),
+        ("dir", Some(_)) => cmd_config(),
         ("rm", Some(matches)) => cmd_rm(&matches),
         _ => {
             app.print_long_help().ok();
@@ -47,9 +47,7 @@ pub fn run() {
     }
 }
 
-fn cmd_config(matches: &ArgMatches) {
-    let config = Config::load_config().unwrap();
-
+fn cmd_config() {
     let dir = match dirs::home_dir() {
         Some(dir) => Path::new(&dir.to_str().unwrap().to_string()).join(".config/trash_cli/"),
         None => panic!("faild fetch home_dir name"),
