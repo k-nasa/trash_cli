@@ -52,6 +52,14 @@ pub struct Config {
 }
 
 impl Config {
+    pub fn set_new_trash_dir_path(&mut self, dir_path: String) -> Result<()> {
+        self.trash_dir_path = dir_path;
+        let toml_str = toml::to_string(self).unwrap();
+        let mut file = Config::load_or_create_config_file();
+
+        file.write_all(toml_str.as_bytes())
+    }
+
     pub fn load_config() -> Result<Config> {
         let mut file = Config::load_or_create_config_file();
 
