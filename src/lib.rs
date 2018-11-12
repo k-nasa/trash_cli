@@ -26,7 +26,11 @@ pub fn build_app() -> App<'static, 'static> {
                 .about("Config trash directory")
                 .arg(Arg::with_name("path").help("New trash dir absolute path")),
         )
-        .subcommand(SubCommand::with_name("rm").about("Trash file remove"))
+        .subcommand(
+            SubCommand::with_name("rm")
+                .about("Trash file remove")
+                .arg(Arg::with_name("path").help("Remove file path")),
+        )
 }
 
 pub fn run() {
