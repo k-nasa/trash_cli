@@ -1,16 +1,14 @@
 [package]
 name = "trash_cli"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["k-nasa <htilcs1115@gmail.com>"]
 keywords = ["cli"]
 repository = "https://github.com/k-nasa/trash_cli"
 license-file = "LICENSE"
 readme = "README.md"
 description = "Command line tool to move files to trash"
+edition = "2018"
 
 [dependencies]
 clap = "2"
-dirs = "1"
-toml = "0.4.8"
-serde = "1"
-serde_derive = "1"
+trash = { git = "https://github.com/ArturKovacs/trash", branch = "v2-dev" }
